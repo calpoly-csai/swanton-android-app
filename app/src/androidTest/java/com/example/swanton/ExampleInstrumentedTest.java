@@ -1,4 +1,4 @@
-package com.example.swanton;
+package com.csai.swanton;
 
   import android.content.Context;
   import androidx.test.platform.app.InstrumentationRegistry;
@@ -20,6 +20,6 @@ package com.example.swanton;
       public void useAppContext() {
           // Context of the app under test.
           Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-          assertEquals("com.example.swanton", appContext.getPackageName());
+          assertEquals("com.csai.swanton", appContext.getPackageName());
       }
   }
