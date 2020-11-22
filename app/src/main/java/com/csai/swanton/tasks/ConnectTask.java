@@ -3,7 +3,7 @@ package com.csai.swanton.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import com.csai.swanton.sftp.ChannelSftpFactory;
+import com.csai.swanton.sftp.factory.ChannelSftpFactory;
 import com.csai.swanton.util.ActivityTags.Tags;
 import com.google.android.material.snackbar.Snackbar;
 import com.jcraft.jsch.ChannelSftp;
@@ -47,6 +47,6 @@ public class ConnectTask extends AsyncTask<Void, Void, Optional<ChannelSftp>> {
         this.view.get(),
         channelSftp.isPresent() ?
             "Connected to Raspberry Pi!" : "Failed to connect to Raspberry Pi.",
-        Snackbar.LENGTH_SHORT).show();
+        Snackbar.LENGTH_LONG).show();
   }
 }

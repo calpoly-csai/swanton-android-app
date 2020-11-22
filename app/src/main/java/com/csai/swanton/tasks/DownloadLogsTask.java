@@ -15,9 +15,7 @@ import lombok.AllArgsConstructor;
  * Asynchronous task for downloading from a raspberry pi.
  */
 @AllArgsConstructor
-public class DownloadTask extends
-    AsyncTask<Void, Void, Optional<String>> {
-
+public class DownloadLogsTask extends AsyncTask<Void, Void, Optional<String>> {
   @Nonnull
   private final WeakReference<View> view;
   @Nonnull
@@ -25,7 +23,8 @@ public class DownloadTask extends
 
   @Override
   protected void onPreExecute() {
-    Snackbar.make(this.view.get(), "Downloading from Raspberry Pi...", Snackbar.LENGTH_SHORT)
+    Snackbar
+        .make(this.view.get(), "Downloading from Raspberry Pi...", Snackbar.LENGTH_SHORT)
         .show();
     Log.i(Tags.MAIN_ACTIVITY.getTag(), "Downloading from Raspberry Pi...");
   }
@@ -50,10 +49,10 @@ public class DownloadTask extends
       final String errorMsg =
           String.format("Error while downloading from Raspberry Pi: %s", result.get());
 
-      Snackbar.make(this.view.get(), errorMsg, Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(this.view.get(), errorMsg, Snackbar.LENGTH_LONG).show();
       Log.e(Tags.MAIN_ACTIVITY.getTag(), errorMsg);
     } else {
-      Snackbar.make(this.view.get(), "Downloaded from Raspberry Pi!", Snackbar.LENGTH_SHORT).show();
+      Snackbar.make(this.view.get(), "Downloaded from Raspberry Pi!", Snackbar.LENGTH_LONG).show();
       Log.i(Tags.MAIN_ACTIVITY.getTag(), "Downloaded from Raspberry Pi.");
     }
   }
