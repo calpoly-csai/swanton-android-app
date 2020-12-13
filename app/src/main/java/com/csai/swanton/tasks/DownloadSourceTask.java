@@ -4,14 +4,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import com.csai.swanton.util.ActivityTags.Tags;
+import com.csai.swanton.util.DirectoryHandler;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import lombok.AllArgsConstructor;
@@ -23,10 +21,8 @@ import org.apache.commons.io.FileUtils;
 @AllArgsConstructor
 public class DownloadSourceTask extends AsyncTask<Void, Void, Optional<String>> {
   private static final String SOURCE_URL = "https://github.com/calpoly-csai/swanton/archive/master.zip";
-  private static final SimpleDateFormat SIMPLE_DATE_TIME_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US);
-
   public static final String LOCAL_SWANTON_ZIP_DIR = "./sdcard/Swanton/zip/";
+  public static final String ZIPFILE_NAME = "source.zip";
 
   @Nonnull
   private final WeakReference<View> view;
@@ -44,11 +40,12 @@ public class DownloadSourceTask extends AsyncTask<Void, Void, Optional<String>> 
 
   @Override
   protected Optional<String> doInBackground(final Void... params) {
-    final String datetime = SIMPLE_DATE_TIME_FORMAT.format(new Date());
+    DirectoryHandler.createLocalDirectory(LOCAL_SWANTON_ZIP_DIR);
+
     try {
       FileUtils.copyURLToFile(
           new URL(SOURCE_URL),
-          new File(LOCAL_SWANTON_ZIP_DIR + datetime + ".zip"));
+          new File(LOCAL_SWANTON_ZIP_DIR + ZIPFILE_NAME));
       return Optional.empty();
     } catch (final IOException e) {
       return Optional.of(e.toString());

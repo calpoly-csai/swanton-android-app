@@ -32,21 +32,23 @@ public class ConnectTask extends AsyncTask<Void, Void, Optional<ChannelSftp>> {
   protected Optional<ChannelSftp> doInBackground(final Void... params) {
     try {
       final Optional<ChannelSftp> channelSftp = Optional.of(ChannelSftpFactory.create());
-      Log.i(Tags.MAIN_ACTIVITY.getTag(), "Connected to Raspberry Pi.");
       return channelSftp;
     } catch (final JSchException e) {
-      // Swallow exception here and log in onPostExecute so app doesn't crash
-      Log.e(Tags.MAIN_ACTIVITY.getTag(), "Failed to connect to Raspberry Pi: %s", e);
+      // Swallow exception here and just log so we don't crash.
+      Log.e(Tags.MAIN_ACTIVITY.getTag(), "Failed to connect to Raspberry Pi: " + e);
       return Optional.empty();
     }
   }
 
   @Override
   protected void onPostExecute(final Optional<ChannelSftp> channelSftp) {
-    Snackbar.make(
-        this.view.get(),
-        channelSftp.isPresent() ?
-            "Connected to Raspberry Pi!" : "Failed to connect to Raspberry Pi.",
-        Snackbar.LENGTH_LONG).show();
+    if (channelSftp.isPresent()) {
+      Snackbar.make(
+          this.view.get(), "Connected to Raspberry Pi!", Snackbar.LENGTH_LONG).show();
+      Log.i(Tags.MAIN_ACTIVITY.getTag(), "Connected to Raspberry Pi.");
+    } else {
+      Snackbar.make(
+          this.view.get(), "Failed to connect to Raspberry Pi.", Snackbar.LENGTH_LONG).show();
+    }
   }
 }
