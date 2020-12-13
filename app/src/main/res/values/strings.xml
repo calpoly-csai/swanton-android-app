@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">swanton</string>
+  <string name="app_name">swanton</string>
   <string name="action_settings">Settings</string>
+  <string name="connect_button_text">Connect to RPi</string>
+  <string name="disconnect_button_text">Disconnect from RPi</string>
+  <string name="download_logs_button_text">Download logs</string>
+  <string name="download_source_button_text">Download source code</string>
 </resources>

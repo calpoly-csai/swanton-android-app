@@ -10,22 +10,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import com.csai.swanton.sftp.ChannelSftpHandler;
 import com.csai.swanton.tasks.ConnectTask;
-import com.csai.swanton.tasks.DownloadTask;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.csai.swanton.tasks.DownloadLogsTask;
+import com.csai.swanton.tasks.DownloadSourceTask;
 import com.jcraft.jsch.ChannelSftp;
 import java.lang.ref.WeakReference;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
-
   private static final int REQUEST_EXTERNAL_STORAGE = 1;
   private static final String[] PERMISSIONS_STORAGE = {
       Manifest.permission.READ_EXTERNAL_STORAGE,
       Manifest.permission.WRITE_EXTERNAL_STORAGE
   };
 
-  private Optional<ChannelSftpHandler> channelSftpHandler;
+  private Optional<ChannelSftpHandler> channelSftpHandler = Optional.empty();
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -36,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
     final Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    final FloatingActionButton connectFab = findViewById(R.id.connect_fab);
-    connectFab.setOnClickListener(
+    findViewById(R.id.connect_button).setOnClickListener(
         view -> {
           final Optional<ChannelSftp> channelSftp;
           try {
@@ -50,16 +48,23 @@ public class MainActivity extends AppCompatActivity {
               sftp -> this.channelSftpHandler = Optional.of(new ChannelSftpHandler(sftp)));
         });
 
-    final FloatingActionButton downloadFab = findViewById(R.id.download_fab);
-    downloadFab.setOnClickListener(
+    findViewById(R.id.download_logs_button).setOnClickListener(
         view -> {
           try {
-            new DownloadTask(new WeakReference<>(view), this.channelSftpHandler).execute().get();
+            new DownloadLogsTask(new WeakReference<>(view), this.channelSftpHandler).execute().get();
           } catch (final ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
           }
-        }
-    );
+        });
+
+    findViewById(R.id.download_source_button).setOnClickListener(
+        view -> {
+          try {
+            new DownloadSourceTask(new WeakReference<>(view)).execute().get();
+          } catch (final ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   /**

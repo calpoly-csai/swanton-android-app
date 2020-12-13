@@ -1,4 +1,4 @@
-package com.csai.swanton.sftp;
+package com.csai.swanton.sftp.factory;
 
 import android.util.Log;
 import com.csai.swanton.util.ActivityTags.Tags;
