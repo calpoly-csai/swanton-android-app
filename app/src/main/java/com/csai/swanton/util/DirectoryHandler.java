@@ -17,6 +17,7 @@ public final class DirectoryHandler {
     try {
       final File newDir = new File(dir);
       if (!newDir.exists()) {
+        Log.i(Tags.MAIN_ACTIVITY.getTag(), String.format("Creating directory: %s", dir));
         newDir.mkdirs();
       }
     } catch (final Exception e) {

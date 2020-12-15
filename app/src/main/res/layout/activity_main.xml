@@ -63,4 +63,14 @@
       android:layout_marginEnd="@dimen/button_bottom_start_end_margin"
       android:text="@string/download_logs_button_text"/>
 
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/upload_source_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top|start"
+      android:layout_marginTop="320dp"
+      android:layout_marginStart="@dimen/button_bottom_start_end_margin"
+      android:layout_marginEnd="@dimen/button_bottom_start_end_margin"
+      android:text="@string/upload_source_button_text"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

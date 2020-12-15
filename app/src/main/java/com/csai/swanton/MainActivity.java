@@ -10,8 +10,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import com.csai.swanton.sftp.ChannelSftpHandler;
 import com.csai.swanton.tasks.ConnectTask;
+import com.csai.swanton.tasks.DisconnectTask;
 import com.csai.swanton.tasks.DownloadLogsTask;
 import com.csai.swanton.tasks.DownloadSourceTask;
+import com.csai.swanton.tasks.UploadSourceTask;
 import com.jcraft.jsch.ChannelSftp;
 import java.lang.ref.WeakReference;
 import java.util.Optional;
@@ -48,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
               sftp -> this.channelSftpHandler = Optional.of(new ChannelSftpHandler(sftp)));
         });
 
+    findViewById(R.id.disconnect_button).setOnClickListener(
+        view -> {
+          try {
+            new DisconnectTask(new WeakReference<>(view), this.channelSftpHandler).execute().get();
+            this.channelSftpHandler = Optional.empty();
+          } catch (final ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        });
+
     findViewById(R.id.download_logs_button).setOnClickListener(
         view -> {
           try {
@@ -61,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
         view -> {
           try {
             new DownloadSourceTask(new WeakReference<>(view)).execute().get();
+          } catch (final ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        });
+
+    findViewById(R.id.upload_source_button).setOnClickListener(
+        view -> {
+          try {
+            new UploadSourceTask(new WeakReference<>(view), this.channelSftpHandler).execute().get();
           } catch (final ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
           }
